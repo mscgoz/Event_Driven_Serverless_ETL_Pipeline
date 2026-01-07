@@ -36,6 +36,8 @@ S3 Consumption Bucket
 Lambda (Promotion)
 ```
 
+Note: The architecture diagram represents the target production design in which downstream applications consume only curated data from the consumption layer.  
+The original lab implementation triggers the promotion application from raw data events for simplicity. This project intentionally adopts a consumption-layer–driven design to align with data lake best practices.
 
 ---
 

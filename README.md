@@ -122,7 +122,18 @@ The Raw S3 bucket sends **object creation notifications** to **Amazon EventBridg
 ### 4.3. Event Processing Trigger  
 Amazon EventBridge evaluates incoming events and **triggers a Lambda processor function** based on predefined event patterns.
 
-![EventBridge Pattern](eventbridgepattern.png)
+
+```json
+{
+  "source": ["aws.s3"],
+  "detail-type": ["Object Created"],
+  "detail": {
+    "bucket": {
+      "name": ["raw-bucket-us-west-2-"]
+    }
+  }
+}
+```
 
 ### 4.4. Data Processing and Aggregation Then Upload to the Consumption Bucket
 

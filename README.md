@@ -292,7 +292,7 @@ def upload_file(file_name, bucket, object_name=None):
 
 ---
 
-## 4.6. Source
+## 5 Source
 
 This project was completed as part of hands-on practice inspired by AWS Skill Builder training content:  
 https://skillbuilder.aws/learn/T7ZQ2ZQ435/data-engineering-on-aws--a-data-lake-solution-includes-labs/W4NU348ADM?parentId=7UPVWWCC45

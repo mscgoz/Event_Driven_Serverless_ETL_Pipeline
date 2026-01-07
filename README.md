@@ -45,9 +45,9 @@ Lambda (Promotion)
 |--------------------|-------------|
 | `cart_id`          | Unique identifier of the shopping cart |
 | `customer_id`      | Unique identifier of the customer |
-| `product_id`       | Unique identifier of the purchased product |
-| `product_amount`   | Quantity of the product purchased |
-| `product_price`    | Price of the product at the time of purchase |
+| `product_id`       | Unique identifier of the abandoned product |
+| `product_amount`   | Quantity of the abondene product |
+| `product_price`    | Price of the product |
 
 ---
 
@@ -55,7 +55,7 @@ Lambda (Promotion)
 
 The ETL pipeline follows an **event-driven workflow** as described below:
 
-### 4.1. Data Generation  
+### 4.1. Data Generation & Ingestion to the Raw Bucket
 
 This Lambda function generates **synthetic e-commerce cart data** and uploads it to an Amazon S3 bucket.  
 It is used as the **data producer** in the event-driven ETL pipeline.
@@ -121,18 +121,15 @@ def upload_file(file_name, bucket, object_name=None):
 ```
 
 
-### 4.2. Raw Data Ingestion  
-Generated data is uploaded into an **Amazon S3 Raw bucket**, which acts as the landing zone.
-
-### 4.3. Event Notification  
+### 4.2. Event Notification  
 The Raw S3 bucket sends **object creation notifications** to **Amazon EventBridge**.
 
-### 4.4. Event Processing Trigger  
+### 4.3. Event Processing Trigger  
 Amazon EventBridge evaluates incoming events and **triggers a Lambda processor function** based on predefined event patterns.
 
 ![EventBridge Pattern](eventbridgepattern.png)
 
-### 4.5. Data Processing & Aggregation  
+### 4.4. Data Processing and Aggregation Then Upload to the Consumption Bucket
 
 This Lambda function is responsible for **processing raw cart data** stored in Amazon S3.  
 It performs aggregation logic on transactional data and writes the transformed output to a **Consumption S3 bucket**.
@@ -209,10 +206,7 @@ def upload_file(file_name, bucket, object_name=None):
 ```
 
 
-### 4.6. Consumption Layer  
-The aggregated data is stored in a dedicated **Consumption S3 bucket** optimized for analytics.
-
-### 4.7. Business Logic & Promotion Engine  
+### 4.5. Low Stream Consumnption  
 
 This Lambda function applies **business logic** on cart abandonment data to generate
 **promotion-ready datasets** for marketing use cases.
@@ -298,7 +292,7 @@ def upload_file(file_name, bucket, object_name=None):
 
 ---
 
-## 🔗 Source
+## 4.6. Source
 
 This project was completed as part of hands-on practice inspired by AWS Skill Builder training content:  
 https://skillbuilder.aws/learn/T7ZQ2ZQ435/data-engineering-on-aws--a-data-lake-solution-includes-labs/W4NU348ADM?parentId=7UPVWWCC45

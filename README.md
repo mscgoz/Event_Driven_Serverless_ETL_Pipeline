@@ -23,21 +23,14 @@ Lambda (Backend App)
         v
 S3 Raw Bucket
         |
-        v
-Amazon EventBridge
+        +--> S3 Event Notification --> Lambda (Processor)
         |
-        v
-Lambda (Processor)
+        +--> Amazon EventBridge --> Lambda (Promotion)
         |
         v
 S3 Consumption Bucket
-        |
-        v
-Lambda (Promotion)
-```
 
-Note: The architecture diagram represents the target production design in which downstream applications consume only curated data from the consumption layer.  
-The original lab implementation triggers the promotion application from raw data events for simplicity. This project intentionally adopts a consumption-layer–driven design to align with data lake best practices.
+```
 
 ---
 
@@ -294,7 +287,7 @@ def upload_file(file_name, bucket, object_name=None):
 
 ---
 
-## 5 Source
+## 5. Resource
 
 This project was completed as part of hands-on practice inspired by AWS Skill Builder training content:  
 https://skillbuilder.aws/learn/T7ZQ2ZQ435/data-engineering-on-aws--a-data-lake-solution-includes-labs/W4NU348ADM?parentId=7UPVWWCC45
